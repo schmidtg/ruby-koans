@@ -31,6 +31,38 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 
 def score(dice)
   # You need to write this method
+  score = 0
+
+  # look for sets of three
+  counts = get_counts(dice)
+
+  counts.each do |di, count|
+    if di == 1
+      if count >= 3
+        score += 1000
+        count -= 3
+      end
+      score = score + (count * 100)
+    elsif di == 5
+      if count >= 3
+        score += 500
+        count -= 3
+      end
+      score = score + (count * 50)
+    else
+      if count >= 3
+        score += di * 100
+      end
+    end
+  end
+  score
+end
+
+# go through each element and increment count in a counter hash
+def get_counts(dice)
+  counts = Hash.new(0)
+  dice.each {|i| counts[i] += 1 }
+  counts
 end
 
 class AboutScoringProject < Neo::Koan
